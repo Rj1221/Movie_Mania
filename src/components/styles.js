@@ -6,11 +6,12 @@ export default makeStyles(() => ({
     height: '100%',
   },
   toolbar: {
-    height: '100%',
+    height: '70%',
   },
   content: {
     flexGrow: '1',
     padding: '2em',
+    width: '100%',
   },
 }));
 
