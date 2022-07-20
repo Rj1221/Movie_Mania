@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import useStyles from './styles';
 import SideBar from '../SideBar/SideBar';
 
-function Navbar() {
+const Navbar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery('(max-width:600px)');
@@ -77,6 +77,6 @@ function Navbar() {
       </div>
     </>
   );
-}
+};
 
 export default Navbar;

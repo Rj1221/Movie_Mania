@@ -30,7 +30,7 @@ const Categories = [
   { label: 'Upcoming', value: 'upcoming' },
 ];
 
-function SideBar({ setMobileOpen }) {
+const SideBar = ({ setMobileOpen }) => {
   const theme = useTheme();
   const classes = useStyles();
   const redLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
@@ -77,6 +77,6 @@ function SideBar({ setMobileOpen }) {
     </>
 
   );
-}
+};
 
 export default SideBar;

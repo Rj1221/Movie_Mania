@@ -5,7 +5,7 @@ import { Actors, MovieInformation, Movies, Navbar, Profile } from './index';
 
 import useStyles from './styles';
 
-function App() {
+const App = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -22,5 +22,5 @@ function App() {
       </main>
     </div>
   );
-}
+};
 export default App;
