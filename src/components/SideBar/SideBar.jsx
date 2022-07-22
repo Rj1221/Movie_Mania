@@ -41,7 +41,7 @@ const SideBar = ({ setMobileOpen }) => {
       <Link to="/" className={classes.imageLink}>
         <img
           className={classes.image}
-          src={theme.palette.type === 'light' ? redLogo : blueLogo}
+          src={theme.palette.mode === 'light' ? redLogo : blueLogo}
           alt="logo"
         />
       </Link>
