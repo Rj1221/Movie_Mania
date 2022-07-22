@@ -3,27 +3,9 @@ import { Divider, List, ListItem, ListItemText, ListSubheader, ListItemIcon, Box
 import { Link } from 'react-router-dom';
 import useStyles from './styles';
 
-const demoCategories = [
-  { label: 'Action', value: 'action' },
-  { label: 'Adventure', value: 'adventure' },
-  { label: 'Animation', value: 'animation' },
-  { label: 'Comedy', value: 'comedy' },
-  { label: 'Crime', value: 'crime' },
-  { label: 'Documentary', value: 'documentary' },
-  { label: 'Drama', value: 'drama' },
-  { label: 'Family', value: 'family' },
-  { label: 'Fantasy', value: 'fantasy' },
-  { label: 'History', value: 'history' },
-  { label: 'Horror', value: 'horror' },
-  { label: 'Music', value: 'music' },
-  { label: 'Mystery', value: 'mystery' },
-  { label: 'Romance', value: 'romance' },
-  { label: 'Science Fiction', value: 'science-fiction' },
-  { label: 'TV Movie', value: 'tv-movie' },
-  { label: 'Thriller', value: 'thriller' },
-  { label: 'War', value: 'war' },
-  { label: 'Western', value: 'western' },
-];
+import { useGetGenresQuery } from '../../services/TMDB';
+import genreIcons from '../../assets/genres';
+
 const Categories = [
   { label: 'Popular', value: 'popular' },
   { label: 'Top Rated', value: 'top-rated' },
@@ -36,6 +18,7 @@ const SideBar = ({ setMobileOpen }) => {
   const redLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
 
   const blueLogo = 'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
+  const { data, isFetching } = useGetGenresQuery();
   return (
     <>
       <Link to="/" className={classes.imageLink}>
@@ -56,6 +39,9 @@ const SideBar = ({ setMobileOpen }) => {
             to={`/categories/${value}`}
             onClick={() => setMobileOpen(false)}
           >
+            <ListItemIcon>
+              <img src={genreIcons[label.toLowerCase()]} alt={label} className={classes.genreImage} height={30} />
+            </ListItemIcon>
             <ListItemText primary={label} />
           </ListItem>
         )) }
@@ -63,16 +49,27 @@ const SideBar = ({ setMobileOpen }) => {
       <Divider />
       <List>
         <ListSubheader>Genres</ListSubheader>
-        { demoCategories.map(({ label, value }) => (
-          <Link key={value} to={`/categories/${value}`} className={classes.links}>
-            <ListItem button onClick={() => setMobileOpen(false)}>
-              {/* <ListItemIcon>
-                <img src={redLogo} alt="logo" className={classes.genreImage} height={30} />
-              </ListItemIcon> */}
-              <ListItemText primary={label} />
+        { isFetching ? (
+          <Box display="flex" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : (
+          data.genres.map(({ id, name }) => (
+            <ListItem
+              key={id}
+              button
+              component={Link}
+              to={`/genres/${id}`}
+              onClick={() => setMobileOpen(false)}
+            >
+              <ListItemIcon>
+                <img src={genreIcons[name.toLowerCase()]} alt={name} className={classes.genreImage} height={30} />
+              </ListItemIcon>
+              <ListItemText primary={name} />
             </ListItem>
-          </Link>
-        )) }
+          ))
+        ) }
+
       </List>
     </>
 
