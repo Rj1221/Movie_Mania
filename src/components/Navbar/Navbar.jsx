@@ -3,7 +3,7 @@ import { AppBar, IconButton, Toolbar, Drawer, Button, Avatar, useMediaQuery, use
 import { Menu, AccountCircle, Brightness4, Brightness7 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import useStyles from './styles';
-import SideBar from '../SideBar/SideBar';
+import { SideBar } from '../index';
 
 const Navbar = () => {
   const classes = useStyles();
