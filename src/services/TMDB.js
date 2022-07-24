@@ -33,7 +33,10 @@ export const tmdbApi = createApi({
         return `movie/popular?page=${page}&api_key=${tmdbApiKey}`;
       },
     }),
-
+    // Get Single Movie
+    getMovie: builder.query({
+      query: (id) => `/movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
+    }),
   }),
 });
 // In above snippet, we can see that we are creating a reducer for the TMDB API.
@@ -41,5 +44,6 @@ export const tmdbApi = createApi({
 export const {
   useGetMoviesQuery,
   useGetGenresQuery,
+  useGetMovieQuery,
 } = tmdbApi;
 // In above snippet, we can see that we are using the TMDB API. exporting tmdbApi as a useGetMoviesQuery.
