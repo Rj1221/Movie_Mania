@@ -13,6 +13,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'react/jsx-fragments': ['error', 'element'],
     'import/extensions': 0,
     'react/prop-types': 0,
     'linebreak-style': 0,
@@ -49,5 +50,6 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'no-console': ['error', { allow: ['warn', 'error', 'log'] }],
   },
 };

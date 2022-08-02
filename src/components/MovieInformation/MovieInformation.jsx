@@ -15,7 +15,7 @@ const MovieInformation = () => {
   const classes = useStyles();
   const { data, isFetching, error } = useGetMovieQuery(id);
   const dispatch = useDispatch();
-  const { data: recommendations, isFetching: isRecommendstionsFetching } = useGetRecommendationsQuery({ list: '/recommendations', movie_id: id });
+  const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', movie_id: id });
   const isMovieFavourite = false;
   const isMovieWatchList = false;
   const [open, setOpen] = useState(false);
@@ -30,7 +30,7 @@ const MovieInformation = () => {
   if (error) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <Link to="/"> Some thing went wrong </Link>
+        <Link to="/"> Something went wrong </Link>
       </Box>
     );
   }
@@ -90,9 +90,9 @@ const MovieInformation = () => {
         </Typography>
         <Grid item container spacing={2}>
           { data && data?.credits?.cast.map((cast, i) => (
-            cast.profile_path && (
-              <Grid item key={i} xs={4} md={2} component={Link} to={`/actors/${cast.id}`} style={{ textDecoration: 'none' }}>
-                <img src={`https://image.tmdb.org/t/p/w500/${cast?.profile_path}`} alt={cast.name} className={classes.castImages} />
+            cast?.profile_path && (
+              <Grid item key={i} xs={4} md={2} component={Link} to={`/actors/${cast?.id}`} style={{ textDecoration: 'none' }}>
+                <img src={`https://image.tmdb.org/t/p/w500/${cast?.profile_path}`} alt={cast?.name} className={classes.castImages} />
                 <Typography color="textPrimary" gutterBottom>
                   { cast?.name }
                 </Typography>
@@ -163,7 +163,7 @@ const MovieInformation = () => {
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             title="Trailer"
-            src={`https://www.youtube.com/embed/${data.videos.results[0].key}`}
+            src={`https://www.youtube.com/embed/${data?.videos?.results[0]?.key}`}
           />
         )}
       </Modal>

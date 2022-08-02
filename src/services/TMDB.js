@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const tmdbApiKey = process.env.REACT_APP_TMDB_KEY;
@@ -21,16 +22,16 @@ export const tmdbApi = createApi({
 
         //* Get Movies by Category
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
-          return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${tmdbApiKey}`;
+          return `/movie/${genreIdOrCategoryName}?page=${page}&api_key=${tmdbApiKey}`;
         }
 
         //* Get Movies by Genre
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'number') {
-          return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApiKey}`;
+          return `/discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApiKey}`;
         }
 
         //* Get Popular Movies
-        return `movie/popular?page=${page}&api_key=${tmdbApiKey}`;
+        return `/movie/popular?page=${page}&api_key=${tmdbApiKey}`;
       },
     }),
     // Get Single Movie
@@ -41,6 +42,14 @@ export const tmdbApi = createApi({
     getRecommendations: builder.query({
       query: ({ movie_id, list }) => `/movie/${movie_id}/${list}?api_key=${tmdbApiKey}`,
     }),
+    // Get Actors Details
+    getActorsDetails: builder.query({
+      query: (id) => `/person/${id}?api_key=${tmdbApiKey}`,
+    }),
+    // Get Actor Movies
+    getMoviesByActor: builder.query({
+      query: ({ id, page }) => `/discover/movie?with_cast=${id}&page=${page}&api_key=${tmdbApiKey}`,
+    }),
   }),
 });
 // In above snippet, we can see that we are creating a reducer for the TMDB API.
@@ -50,5 +59,7 @@ export const {
   useGetGenresQuery,
   useGetMovieQuery,
   useGetRecommendationsQuery,
+  useGetActorsDetailsQuery,
+  useGetMoviesByActorQuery,
 } = tmdbApi;
 // In above snippet, we can see that we are using the TMDB API. exporting tmdbApi as a useGetMoviesQuery.
