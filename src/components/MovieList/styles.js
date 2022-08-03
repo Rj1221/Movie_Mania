@@ -9,5 +9,8 @@ export default makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
     },
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center',
+    },
   },
 }));

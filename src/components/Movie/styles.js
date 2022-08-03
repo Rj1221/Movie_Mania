@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     fontWeight: 'bolder',
     textDecoration: 'none',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('xs')]: {
       display: 'flex',
       flexDirection: 'column',
     },
@@ -31,7 +31,7 @@ export default makeStyles((theme) => ({
     height: '300px',
     marginBottom: '10px',
     '&:hover': {
-      transform: 'scale(1.1)',
+      transform: 'scale(1.05)',
     },
   },
 }));

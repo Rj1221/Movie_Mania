@@ -28,7 +28,7 @@ const SideBar = ({ setMobileOpen }) => {
   }, [genreIdOrCategoryName]);
 
   return (
-    <>
+    <React.Fragment>
       <Link to="/" className={classes.imageLink}>
         <img
           className={classes.image}
@@ -83,8 +83,7 @@ const SideBar = ({ setMobileOpen }) => {
         ) }
 
       </List>
-    </>
-
+    </React.Fragment>
   );
 };
 
