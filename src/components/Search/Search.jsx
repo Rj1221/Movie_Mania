@@ -14,7 +14,6 @@ const Search = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      console.log('searching for: ', search);
       dispatch(searchMovie(search));
       location.pathname = '/search';
     }

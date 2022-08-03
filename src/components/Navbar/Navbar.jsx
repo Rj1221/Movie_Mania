@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppBar, IconButton, Toolbar, Drawer, Button, Avatar, useMediaQuery, useTheme } from '@mui/material';
 import { Menu, AccountCircle, Brightness4, Brightness7 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import useStyles from './styles';
 import { SideBar, Search } from '../index';
 import { fetchToken, moviesApi, createSessionId } from '../../utils';
 import { setUser, userSelector } from '../../features/auth';
+import { ColorModeContext } from '../../utils/ToggleColorMode';
 
 const Navbar = () => {
   const { isAuthenticated, user } = useSelector(userSelector);
@@ -16,6 +17,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = useState(false);
   const token = localStorage.getItem('request_token');
+  const colorMode = useContext(ColorModeContext);
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
   useEffect(() => {
     const loginUser = async () => {
@@ -33,7 +35,7 @@ const Navbar = () => {
     loginUser();
   }, [token]);
   return (
-    <>
+    <React.Fragment>
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
           { isMobile && (
@@ -47,7 +49,7 @@ const Navbar = () => {
               <Menu />
             </IconButton>
           ) }
-          <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => { }}>
+          <IconButton color="inherit" sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
             { theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 /> }
           </IconButton>
           { !isMobile && <Search /> }
@@ -62,7 +64,7 @@ const Navbar = () => {
                 onClick={() => { }}
                 className={classes.linkButton}
               >
-                { !isMobile && <>MyMovies &nbsp;</> }
+                { !isMobile && <React.Fragment>MyMovies &nbsp;</React.Fragment> }
                 <Avatar
                   alt="Profile"
                   style={{ width: '30px', height: '30px' }}
@@ -96,7 +98,7 @@ const Navbar = () => {
           ) }
         </nav>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
