@@ -1,24 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating } from '@mui/material';
 import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, Remove, FavoriteBorderOutlined, ArrowBack } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMDB';
+import { useGetMovieQuery, useGetRecommendationsQuery, useGetListsQuery } from '../../services/TMDB';
 import useStyles from './styles';
 import genreIcons from '../../assets/genres';
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 import { MovieList } from '../index';
+import { userSelector } from '../../features/auth';
 
 const MovieInformation = () => {
+  const { user } = useSelector(userSelector);
   const { id } = useParams();
   const classes = useStyles();
   const { data, isFetching, error } = useGetMovieQuery(id);
   const dispatch = useDispatch();
   const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', movie_id: id });
-  const isMovieFavourite = false;
-  const isMovieWatchList = false;
+  const { data: favoriteMovies } = useGetListsQuery({ listName: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+  const { data: watchlistMovies } = useGetListsQuery({ listName: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+  const [isMovieFavourite, setIsMovieFavourite] = useState(false);
+  const [isMovieWatchList, setIsMovieWatchList] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(
+    () => {
+      setIsMovieFavourite(!!favoriteMovies?.results?.find((movie) => movie?.id === data?.id));
+    },
+    [favoriteMovies, data],
+  );
+  useEffect(
+    () => {
+      setIsMovieWatchList(!!watchlistMovies?.results?.find((movie) => movie?.id === data?.id));
+    },
+    [watchlistMovies, data],
+  );
   if (isFetching) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center">
@@ -35,8 +52,22 @@ const MovieInformation = () => {
     );
   }
   const addToFavourites = async () => {
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`, {
+      media_type: 'movie',
+      media_id: id,
+      favorite: !isMovieFavourite,
+    });
+    setIsMovieFavourite((prev) => !prev);
   };
-  const addToWatchList = async () => {};
+  const addToWatchList = async () => {
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`, {
+      media_type: 'movie',
+      media_id: id,
+      watchlist: !isMovieWatchList,
+    });
+    setIsMovieWatchList((prev) => !prev);
+  };
+
   return (
     <Grid container className={classes.containerSpaceAround}>
       <Grid item sm={12} lg={4} style={{ display: 'flex', marginBottom: '30px' }}>
@@ -119,9 +150,9 @@ const MovieInformation = () => {
               </ButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
-              <ButtonGroup variant="outlined" size="medium">
+              <ButtonGroup variant="outlined" size="small">
                 <Button onClick={addToFavourites} endIcon={isMovieFavourite ? <FavoriteBorderOutlined /> : <Favorite />}>
-                  { isMovieFavourite ? 'Remove from favourites' : 'Favourite' }
+                  { isMovieFavourite ? 'Unfavourite' : 'Favourite' }
                 </Button>
                 <Button onClick={addToWatchList} endIcon={isMovieWatchList ? <Remove /> : <PlusOne />}>
                   Watchlist
