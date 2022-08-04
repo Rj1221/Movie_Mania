@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
-    height: '490px',
+    height: '450px',
     textDecoration: 'none',
   },
   card: {
@@ -20,18 +20,15 @@ export default makeStyles((theme) => ({
   cardMedia: {
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
     position: 'absolute',
     top: 0,
-    left: 0,
-    zIndex: 1,
+    right: 0,
     backgroundColor: 'rgba(0,0,0,0.575)',
     backgroundBlendMode: 'darken',
   },
   cardContent: {
     color: '#fff',
     width: '40%',
-    zIndex: 2,
     [theme.breakpoints.down('sm')]: {
       width: '100%',
     },
