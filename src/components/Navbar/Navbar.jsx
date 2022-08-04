@@ -19,6 +19,7 @@ const Navbar = () => {
   const token = localStorage.getItem('request_token');
   const colorMode = useContext(ColorModeContext);
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
+  console.log(user);
   useEffect(() => {
     // To check if the user is authenticated or not
     const loginUser = async () => {
@@ -66,11 +67,11 @@ const Navbar = () => {
                 onClick={() => { }}
                 className={classes.linkButton}
               >
-                { !isMobile && <React.Fragment>MyMovies &nbsp;</React.Fragment> }
+                { !isMobile && <React.Fragment>{user?.username}&nbsp;</React.Fragment> }
                 <Avatar
                   alt="Profile"
                   style={{ width: '30px', height: '30px' }}
-                  src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
+                  src={`https://image.tmdb.org/t/p/w64_and_h64_face/${user?.avatar?.tmdb?.avatar_path}`}
                 />
               </Button>
             ) }

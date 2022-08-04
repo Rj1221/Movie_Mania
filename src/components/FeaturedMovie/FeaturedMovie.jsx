@@ -25,7 +25,7 @@ const FeaturedMovie = ({ movie }) => {
               { movie.title }
             </Typography>
             <Typography variant="body2">
-              { movie.overview }
+              { movie.overview.substring(0, 100) }
             </Typography>
           </CardContent>
         </Box>
