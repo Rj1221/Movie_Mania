@@ -20,12 +20,14 @@ const Navbar = () => {
   const colorMode = useContext(ColorModeContext);
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
   useEffect(() => {
+    // To check if the user is authenticated or not
     const loginUser = async () => {
       if (token) {
         if (sessionIdFromLocalStorage) {
           const { data: userData } = await moviesApi.get(`/account?session_id=${sessionIdFromLocalStorage}`);
           dispatch(setUser(userData));
         } else {
+          // For the first time, fetch token and create session id
           const sessionId = await createSessionId();
           const { data: userData } = await moviesApi.get(`/account?session_id=${sessionId}`);
           dispatch(setUser(userData));
